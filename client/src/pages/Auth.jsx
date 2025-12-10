@@ -6,6 +6,7 @@ import { setCredentials } from '../store/authSlice';
 import { z } from 'zod'; // We installed zod in client
 import { Film, Loader } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 
 // Schemas (Validation)
 const loginSchema = z.object({
@@ -68,6 +69,7 @@ const Auth = () => {
             console.log("Auth Success");
 
             dispatch(setCredentials({ user: userData, token: userData.token }));
+            toast.success(isLogin ? `Welcome back, ${userData.username || 'User'}!` : 'Account created successfully!');
             navigate('/');
         } catch (err) {
             console.error('Auth Failed:', err);

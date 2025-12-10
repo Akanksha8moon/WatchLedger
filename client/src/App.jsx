@@ -5,16 +5,29 @@ import Home from './pages/Home';
 import Library from './pages/Library';
 import Likes from './pages/Likes';
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<AppLayout />}>
-        <Route index element={<Home />} />
-        <Route path="login" element={<Auth />} />
-        <Route path="library" element={<Library />} />
-        <Route path="likes" element={<Likes />} />
-      </Route>
-    </Routes>
+    <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Auth />} />
+          <Route path="library" element={<Library />} />
+          <Route path="likes" element={<Likes />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

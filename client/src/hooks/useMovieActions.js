@@ -6,6 +6,7 @@ import {
 } from '../services/api';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export const useMovieActions = (movie) => {
     const { isAuthenticated } = useSelector(state => state.auth);
@@ -21,27 +22,38 @@ export const useMovieActions = (movie) => {
     const isLiked = library?.likes?.some(m => m.tmdbId === movie.id);
 
     const handleWatchlistClick = async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         if (!isAuthenticated) return navigate('/login');
 
         if (isWatchlisted) {
             await removeFromWatchlist(movie.id);
+            toast.success("Removed from Watchlist");
         } else {
             await addToWatchlist({
                 tmdbId: movie.id,
                 title: movie.title,
                 posterPath: movie.poster_path
             });
+            toast.success("Added to Watchlist");
         }
     };
 
     const handleLikeClick = async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         if (!isAuthenticated) return navigate('/login');
 
-        await toggleLike(movie); // Now passing full movie object (for title/poster)
+        await toggleLike(movie);
+        if (isLiked) {
+            toast.success("Removed from Likes");
+        } else {
+            toast.success("Added to Likes");
+        }
     };
 
     return {
